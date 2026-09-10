@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\DriverAvailabilityStatus;
+use App\Enums\DriverVerificationStatus;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,6 +31,8 @@ class Driver extends Model
             'current_longitude' => 'decimal:7',
             'last_location_at' => 'datetime',
             'average_rating' => 'decimal:2',
+            'verification_status' => DriverVerificationStatus::class,
+            'availability_status' => DriverAvailabilityStatus::class,
         ];
     }
 

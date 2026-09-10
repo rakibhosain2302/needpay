@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\DocumentStatus;
+use App\Enums\DocumentType;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -12,12 +15,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 ])]
 class DriverDocument extends Model
 {
+    use HasFactory;
+
     protected function casts(): array
     {
         return [
             'issued_at' => 'date',
             'expires_at' => 'date',
             'verified_at' => 'datetime',
+            'document_type' => DocumentType::class,
+            'status' => DocumentStatus::class,
         ];
     }
 
@@ -29,5 +36,15 @@ class DriverDocument extends Model
     public function verifiedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'verified_by');
+    }
+
+    public function isExpired(): bool
+    {
+        return $this->expires_at !== null && $this->expires_at->isPast();
+    }
+
+    public function isValid(): bool
+    {
+        return $this->status === DocumentStatus::Approved && ! $this->isExpired();
     }
 }

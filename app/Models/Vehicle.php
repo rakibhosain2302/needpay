@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\VehicleStatus;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,7 +22,13 @@ class Vehicle extends Model
     {
         return [
             'registration_expiry_date' => 'date',
+            'status' => VehicleStatus::class,
         ];
+    }
+
+    public function isRegistrationValid(): bool
+    {
+        return $this->registration_expiry_date === null || ! $this->registration_expiry_date->isPast();
     }
 
     public function driver(): BelongsTo

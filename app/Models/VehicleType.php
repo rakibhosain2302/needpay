@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ActiveStatus;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,6 +25,7 @@ class VehicleType extends Model
             'per_km_rate' => 'decimal:2',
             'per_minute_rate' => 'decimal:2',
             'waiting_charge_per_minute' => 'decimal:2',
+            'status' => ActiveStatus::class,
         ];
     }
 
