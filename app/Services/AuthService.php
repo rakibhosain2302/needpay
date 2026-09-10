@@ -9,6 +9,7 @@ use App\Models\Driver;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
@@ -20,23 +21,27 @@ class AuthService
 
     public function register(array $data, ?UploadedFile $photo = null): array
     {
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'] ?? null,
-            'phone' => $data['phone'] ?? null,
-            'password' => $data['password'],
-            'account_type' => $data['account_type'],
-            'profile_photo' => $photo ? $photo->store('profile-photos', 'public') : null,
-        ]);
-
-        if ($data['account_type'] === AccountType::Driver->value) {
-            Driver::create([
-                'user_id' => $user->id,
-                'verification_status' => 'pending',
-                'is_online' => false,
-                'availability_status' => 'offline',
+        $user = DB::transaction(function () use ($data, $photo) {
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'] ?? null,
+                'phone' => $data['phone'] ?? null,
+                'password' => $data['password'],
+                'account_type' => $data['account_type'],
+                'profile_photo' => $photo ? $photo->store('profile-photos', 'public') : null,
             ]);
-        }
+
+            if ($data['account_type'] === AccountType::Driver->value) {
+                Driver::create([
+                    'user_id' => $user->id,
+                    'verification_status' => 'pending',
+                    'is_online' => false,
+                    'availability_status' => 'offline',
+                ]);
+            }
+
+            return $user;
+        });
 
         event(new Registered($user));
 
@@ -87,10 +92,12 @@ class AuthService
             ]);
         }
 
-        $user->forceFill(['password' => $newPassword])->save();
+        DB::transaction(function () use ($user, $newPassword, $currentTokenId) {
+            $user->forceFill(['password' => $newPassword])->save();
 
-        $user->tokens()->when($currentTokenId, fn ($query) => $query->where('id', '!=', $currentTokenId))
-            ->delete();
+            $user->tokens()->when($currentTokenId, fn ($query) => $query->where('id', '!=', $currentTokenId))
+                ->delete();
+        });
     }
 
     public function forgotPassword(string $loginType, string $identifier): void
@@ -117,8 +124,10 @@ class AuthService
                     'password_confirmation' => $data['password_confirmation'],
                 ],
                 function (User $user, string $password): void {
-                    $user->forceFill(['password' => $password])->save();
-                    $user->tokens()->delete();
+                    DB::transaction(function () use ($user, $password) {
+                        $user->forceFill(['password' => $password])->save();
+                        $user->tokens()->delete();
+                    });
                 }
             );
 
@@ -139,7 +148,9 @@ class AuthService
             ]);
         }
 
-        $user->forceFill(['password' => $data['password']])->save();
-        $user->tokens()->delete();
+        DB::transaction(function () use ($user, $data) {
+            $user->forceFill(['password' => $data['password']])->save();
+            $user->tokens()->delete();
+        });
     }
 }
