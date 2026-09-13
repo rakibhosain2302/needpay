@@ -91,9 +91,9 @@ class VehicleTypeTest extends TestCase
 
     public function test_unauthorized_user_cannot_manage_vehicle_types(): void
     {
-        $customer = User::factory()->customer()->create();
+        $passenger = User::factory()->passenger()->create();
 
-        $this->actingAs($customer, 'sanctum')
+        $this->actingAs($passenger, 'sanctum')
             ->postJson('/api/v1/admin/vehicle-types', ['name' => 'X'])
             ->assertForbidden();
     }

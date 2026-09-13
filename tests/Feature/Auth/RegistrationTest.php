@@ -10,11 +10,11 @@ class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_customer_registration_works(): void
+    public function test_passenger_registration_works(): void
     {
         $response = $this->postJson('/api/v1/auth/register', [
-            'name' => 'Jane Customer',
-            'account_type' => 'customer',
+            'name' => 'Jane Passenger',
+            'account_type' => 'passenger',
             'email' => 'jane@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
@@ -22,10 +22,10 @@ class RegistrationTest extends TestCase
 
         $response->assertCreated()
             ->assertJsonPath('success', true)
-            ->assertJsonPath('data.user.account_type', 'customer')
+            ->assertJsonPath('data.user.account_type', 'passenger')
             ->assertJsonStructure(['data' => ['user', 'token']]);
 
-        $this->assertDatabaseHas('users', ['email' => 'jane@example.com', 'account_type' => 'customer']);
+        $this->assertDatabaseHas('users', ['email' => 'jane@example.com', 'account_type' => 'passenger']);
         $this->assertDatabaseMissing('drivers', ['user_id' => User::firstWhere('email', 'jane@example.com')->id]);
     }
 
@@ -58,7 +58,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->postJson('/api/v1/auth/register', [
             'name' => 'Someone',
-            'account_type' => 'customer',
+            'account_type' => 'passenger',
             'email' => 'taken@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
@@ -73,7 +73,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->postJson('/api/v1/auth/register', [
             'name' => 'Someone',
-            'account_type' => 'customer',
+            'account_type' => 'passenger',
             'phone' => '01712345678',
             'password' => 'password123',
             'password_confirmation' => 'password123',
@@ -86,7 +86,7 @@ class RegistrationTest extends TestCase
     {
         $response = $this->postJson('/api/v1/auth/register', [
             'name' => '',
-            'account_type' => 'customer',
+            'account_type' => 'passenger',
             'password' => 'password123',
             'password_confirmation' => 'password123',
         ]);
@@ -97,8 +97,8 @@ class RegistrationTest extends TestCase
     public function test_password_confirmation_is_required(): void
     {
         $response = $this->postJson('/api/v1/auth/register', [
-            'name' => 'Jane Customer',
-            'account_type' => 'customer',
+            'name' => 'Jane Passenger',
+            'account_type' => 'passenger',
             'email' => 'jane2@example.com',
             'password' => 'password123',
         ]);

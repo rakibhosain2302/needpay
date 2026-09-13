@@ -88,11 +88,11 @@ class DriverVerificationTest extends TestCase
         $this->assertSame('offline', $driver->availability_status->value);
     }
 
-    public function test_customer_cannot_access_admin_driver_endpoints(): void
+    public function test_passenger_cannot_access_admin_driver_endpoints(): void
     {
-        $customer = User::factory()->customer()->create();
+        $passenger = User::factory()->passenger()->create();
 
-        $this->actingAs($customer, 'sanctum')
+        $this->actingAs($passenger, 'sanctum')
             ->getJson('/api/v1/admin/drivers')
             ->assertForbidden();
     }

@@ -17,7 +17,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'account_type' => ['required', Rule::in(['customer', 'driver'])],
+            'account_type' => ['required', Rule::in(['passenger', 'driver'])],
             'email' => [
                 'nullable', 'required_without:phone', 'email', 'max:255',
                 Rule::unique('users', 'email'),
@@ -36,7 +36,7 @@ class RegisterRequest extends FormRequest
         return [
             'email.required_without' => 'Either an email or a phone number is required.',
             'phone.required_without' => 'Either an email or a phone number is required.',
-            'account_type.in' => 'Account type must be either customer or driver.',
+            'account_type.in' => 'Account type must be either passenger or driver.',
         ];
     }
 }

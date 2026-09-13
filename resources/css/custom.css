@@ -1,0 +1,282 @@
+/* Needpay custom styles — layered on top of Bootstrap's default CSS. */
+
+:root {
+    --np-primary: #4f46e5;
+    --np-primary-dark: #4338ca;
+    --np-primary-rgb: 79, 70, 229;
+    --np-violet: #6d28d9;
+}
+
+body {
+    font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* Brand color overrides for Bootstrap's default components */
+.btn-primary {
+    --bs-btn-bg: var(--np-primary);
+    --bs-btn-border-color: var(--np-primary);
+    --bs-btn-hover-bg: var(--np-primary-dark);
+    --bs-btn-hover-border-color: var(--np-primary-dark);
+    --bs-btn-active-bg: var(--np-primary-dark);
+    --bs-btn-active-border-color: var(--np-primary-dark);
+    --bs-btn-disabled-bg: var(--np-primary);
+    --bs-btn-disabled-border-color: var(--np-primary);
+    --bs-btn-focus-shadow-rgb: var(--np-primary-rgb);
+}
+
+a,
+.link-primary {
+    color: var(--np-primary);
+}
+
+a:hover,
+.link-primary:hover {
+    color: var(--np-primary-dark);
+}
+
+.form-control:focus {
+    border-color: var(--np-primary);
+    box-shadow: 0 0 0 0.25rem rgba(var(--np-primary-rgb), 0.2);
+}
+
+.spinner-border-sm {
+    border-width: 0.15em;
+}
+
+/* Auth pages: split hero + form shell */
+.auth-shell {
+    min-height: 100vh;
+}
+
+.auth-hero {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--np-primary) 0%, var(--np-primary-dark) 55%, var(--np-violet) 100%);
+    color: #fff;
+    padding: 3rem;
+}
+
+.auth-hero__blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+}
+
+.auth-hero__blob--1 {
+    top: -6rem;
+    right: -6rem;
+    width: 24rem;
+    height: 24rem;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.auth-hero__blob--2 {
+    bottom: -8rem;
+    left: -4rem;
+    width: 20rem;
+    height: 20rem;
+    background: rgba(196, 181, 253, 0.25);
+}
+
+.auth-hero__brand-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.15);
+    font-weight: 700;
+}
+
+.auth-hero__feature-icon {
+    color: #6ee7b7;
+    flex-shrink: 0;
+}
+
+.auth-form-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+}
+
+@media (min-width: 992px) {
+    .auth-form-panel {
+        padding: 3rem 4rem;
+    }
+}
+
+/* Segmented pill toggle (account type / login type) */
+.segmented {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.25rem;
+    border-radius: 0.75rem;
+    background-color: var(--bs-secondary-bg);
+    padding: 0.25rem;
+}
+
+.segmented-option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.5rem;
+    padding: 0.6rem 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--bs-secondary-color);
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.segmented-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.segmented-option:has(input:checked) {
+    background-color: #fff;
+    color: var(--np-primary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+/* Icon-prefixed inputs */
+.input-icon-group {
+    position: relative;
+}
+
+.input-icon-group .input-icon {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    padding-left: 0.75rem;
+    color: var(--bs-secondary-color);
+    pointer-events: none;
+}
+
+.input-icon-group .form-control {
+    padding-left: 2.25rem;
+}
+
+.input-icon-group .password-toggle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    padding-right: 0.75rem;
+    background: none;
+    border: 0;
+    color: var(--bs-secondary-color);
+}
+
+.input-icon-group .password-toggle:hover {
+    color: var(--bs-body-color);
+}
+
+.input-icon-group .form-control.has-trailing-icon {
+    padding-right: 2.5rem;
+}
+
+/* Landing page */
+.landing-hero {
+    background: linear-gradient(135deg, var(--np-primary) 0%, var(--np-primary-dark) 55%, var(--np-violet) 100%);
+    color: #fff;
+    min-height: 100vh;
+}
+
+.landing-feature-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.15);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Dashboard */
+.dashboard-shell {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+}
+
+/* Role-based dashboard themes */
+body.theme-passenger {
+    --dash-accent: var(--np-primary);
+    --dash-accent-soft: rgba(79, 70, 229, 0.1);
+}
+
+body.theme-driver {
+    --dash-accent: #059669;
+    --dash-accent-soft: rgba(5, 150, 105, 0.1);
+}
+
+body.theme-admin {
+    --dash-accent: #d97706;
+    --dash-accent-soft: rgba(217, 119, 6, 0.1);
+    background-color: #0f172a;
+    color: #e2e8f0;
+}
+
+body.theme-admin .card {
+    background-color: #1e293b;
+    border-color: #334155;
+    color: #e2e8f0;
+}
+
+body.theme-admin .text-secondary {
+    color: #94a3b8 !important;
+}
+
+body.theme-admin .border-bottom {
+    border-color: #334155 !important;
+}
+
+body.theme-admin .btn-outline-secondary {
+    color: #cbd5e1;
+    border-color: #475569;
+}
+
+.dashboard-role-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.75rem;
+    background: var(--dash-accent-soft);
+    color: var(--dash-accent);
+    flex-shrink: 0;
+}
+
+.dashboard-shell .btn-primary {
+    --bs-btn-bg: var(--dash-accent);
+    --bs-btn-border-color: var(--dash-accent);
+    --bs-btn-hover-bg: var(--dash-accent);
+    --bs-btn-hover-border-color: var(--dash-accent);
+    filter: brightness(0.92);
+}
+
+.dashboard-stat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    background: var(--dash-accent-soft);
+    color: var(--dash-accent);
+    font-size: 0.8rem;
+    font-weight: 500;
+}

@@ -33,11 +33,11 @@ class DriverProfileTest extends TestCase
         $this->assertDatabaseHas('drivers', ['id' => $driver->id, 'address' => 'New Address 123']);
     }
 
-    public function test_customer_cannot_access_driver_profile(): void
+    public function test_passenger_cannot_access_driver_profile(): void
     {
-        $customer = User::factory()->customer()->create();
+        $passenger = User::factory()->passenger()->create();
 
-        $this->actingAs($customer, 'sanctum')
+        $this->actingAs($passenger, 'sanctum')
             ->getJson('/api/v1/driver/profile')
             ->assertForbidden();
     }

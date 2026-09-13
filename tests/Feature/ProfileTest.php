@@ -37,13 +37,13 @@ class ProfileTest extends TestCase
 
     public function test_user_cannot_change_account_type(): void
     {
-        $user = User::factory()->customer()->create();
+        $user = User::factory()->passenger()->create();
 
         $this->actingAs($user, 'sanctum')->putJson('/api/v1/profile', [
             'account_type' => 'admin',
         ]);
 
-        $this->assertSame(AccountType::Customer, $user->fresh()->account_type);
+        $this->assertSame(AccountType::Passenger, $user->fresh()->account_type);
     }
 
     public function test_user_cannot_change_status(): void

@@ -45,9 +45,9 @@ class UserFactory extends Factory
         ]);
     }
 
-    public function customer(): static
+    public function passenger(): static
     {
-        return $this->state(fn (array $attributes) => ['account_type' => AccountType::Customer]);
+        return $this->state(fn (array $attributes) => ['account_type' => AccountType::Passenger]);
     }
 
     public function driver(): static

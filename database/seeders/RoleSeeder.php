@@ -25,8 +25,8 @@ class RoleSeeder extends Seeder
                 'name' => 'Support Agent',
                 'permissions' => ['users.view', 'rides.view', 'complaints.view', 'complaints.manage'],
             ],
-            'customer' => [
-                'name' => 'Customer',
+            'passenger' => [
+                'name' => 'Passenger',
                 'permissions' => [],
             ],
             'driver' => [

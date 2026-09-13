@@ -10,11 +10,11 @@ class AuthorizationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_customer_cannot_access_driver_only_endpoint(): void
+    public function test_passenger_cannot_access_driver_only_endpoint(): void
     {
-        $customer = User::factory()->customer()->create();
+        $passenger = User::factory()->passenger()->create();
 
-        $this->actingAs($customer, 'sanctum')
+        $this->actingAs($passenger, 'sanctum')
             ->getJson('/api/v1/driver/ping')
             ->assertForbidden();
     }
@@ -28,11 +28,11 @@ class AuthorizationTest extends TestCase
             ->assertForbidden();
     }
 
-    public function test_customer_cannot_access_admin_only_endpoint(): void
+    public function test_passenger_cannot_access_admin_only_endpoint(): void
     {
-        $customer = User::factory()->customer()->create();
+        $passenger = User::factory()->passenger()->create();
 
-        $this->actingAs($customer, 'sanctum')
+        $this->actingAs($passenger, 'sanctum')
             ->getJson('/api/v1/admin/ping')
             ->assertForbidden();
     }
@@ -49,10 +49,10 @@ class AuthorizationTest extends TestCase
 
     public function test_matching_account_type_can_access_its_endpoint(): void
     {
-        $customer = User::factory()->customer()->create();
+        $passenger = User::factory()->passenger()->create();
 
-        $this->actingAs($customer, 'sanctum')
-            ->getJson('/api/v1/customer/ping')
+        $this->actingAs($passenger, 'sanctum')
+            ->getJson('/api/v1/passenger/ping')
             ->assertOk();
     }
 }

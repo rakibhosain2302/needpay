@@ -34,8 +34,8 @@ Route::prefix('v1')->group(function () {
     });
 
     // Minimal probes demonstrating account-type authorization; real endpoints land in later phases.
-    Route::middleware(['auth:sanctum', 'account.type:customer'])
-        ->get('customer/ping', fn () => response()->json(['success' => true, 'message' => 'customer ok']));
+    Route::middleware(['auth:sanctum', 'account.type:passenger'])
+        ->get('passenger/ping', fn () => response()->json(['success' => true, 'message' => 'passenger ok']));
     Route::middleware(['auth:sanctum', 'account.type:driver'])
         ->get('driver/ping', fn () => response()->json(['success' => true, 'message' => 'driver ok']));
     Route::middleware(['auth:sanctum', 'account.type:admin'])
